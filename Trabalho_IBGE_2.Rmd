@@ -1,0 +1,1350 @@
+---
+title: "Relatório de Planejamento Amostral - Amostragem II (EST079)"
+subtitle: "Desenho Amostral p/ Pesquisa de Ciências Sociais em Juiz de Fora (MG)"
+author: "Nome: Vitor Penido"
+date: "Data: 14/08/2025"
+output:
+  html_document:
+    df_print: paged
+    theme: flatly
+    highlight: tango
+editor_options: 
+  chunk_output_type: inline
+---
+
+<style>
+.main-container {
+  max-width: 1280px; margin-left: auto; margin-right: auto;
+}
+
+pre {
+  position: relative; padding-top: 2em;
+}
+
+.copy-button, .toggle-button {
+  position: absolute;
+  top: 0.4em;
+  padding: 0.2em 0.4em;
+  font-size: 0.8em;
+  border: none;
+  color: white;
+}
+
+.copy-button:hover, .toggle-button:hover {
+  opacity: 1;
+}
+
+.copy-button {
+  right: 0.5em;
+  background-color: #007bff;
+}
+
+.toggle-button {
+  right: 6em;
+  background-color: #6c757d;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const chunks = document.querySelectorAll('pre code');
+
+  chunks.forEach((code, i) => {
+    const pre = code.parentNode;
+    const id = `code-${i}`;
+    code.id = id;
+
+    const copyBtn = Object.assign(document.createElement('button'), {
+      className: 'copy-button',
+      textContent: 'Copiar',
+    });
+    copyBtn.setAttribute('data-clipboard-target', `#${id}`);
+
+    const toggleBtn = Object.assign(document.createElement('button'), {
+      className: 'toggle-button',
+      textContent: 'Ocultar',
+    });
+    toggleBtn.onclick = () => {
+      const isHidden = code.style.display === 'none';
+      code.style.display = isHidden ? 'block' : 'none';
+      toggleBtn.textContent = isHidden ? 'Ocultar' : 'Mostrar';
+    };
+
+    pre.appendChild(copyBtn);
+    pre.appendChild(toggleBtn);
+  });
+
+  new ClipboardJS('.copy-button').on('success', e => {
+    e.clearSelection();
+    e.trigger.textContent = 'Copiado!';
+    setTimeout(() => e.trigger.textContent = 'Copiar', 2000);
+  });
+});
+</script>
+
+```{r setup, include = F}
+knitr::opts_chunk$set(
+  fig.align = 'center',
+  out.width = '100%',
+  fig.width = 16, 
+  fig.height = 9,
+  df_print = "paged", 
+  rows.print = 15,
+  dev = "png",
+  cache = F,
+  echo = T, 
+  include = T, 
+  message = F, 
+  warning = F
+)
+
+setwd(getwd())
+```
+
+### **Bibliotecas e Paletas:** {.tabset .tabset-pills}
+
+```{r libraries, echo = T, include = T, message = F, warning = F, fig.width = 16, fig.height = 9, dpi = 300}
+## Bibliotecas:
+  ## Dados:
+  library(sf)
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(tidyverse)
+  ## Tabelas:
+  library(knitr)
+  library(kableExtra)
+  ## Gráficos:
+  library(scales)
+  library(ggplot2)
+  library(leaflet)
+```
+
+<br>
+
+---
+
+#### **Introdução**
+
+**Alcance do Documento**
+
+- Apresentar as principais informações utilizadas no desenho amostral;
+- Descrever detalhadamente o desenho amostral;
+- Determinar e justificar o tamanho da amostra;
+- Registrar os cuidados e limitações do desenho proposto.
+
+<br>
+
+**Objetivos do Estudo**
+
+Este documento detalha o planejamento amostral desenvolvido para uma pesquisa de Ciências Sociais no município de Juiz de Fora (MG), cujos objetivos são:
+
+- Avaliar a influência de fatores demográficos na percepção sobre a UFJF;
+- Avaliar a influência de fatores políticos e religiosos na percepção sobre a UFJF;
+- Avaliar a influência de experiências pessoais na percepção sobre a UFJF;
+
+<br>
+
+**Objetivos do Desenho Amostral**
+
+O estudo baseia-se em dados censitários do IBGE (2022) combinados com a divisão administrativa oficial fornecida pela Prefeitura de Juiz de Fora, visando:
+
+- Construir uma amostra estatisticamente representativa da população adulta (+18 anos);
+- Garantir representão geográfica e demográfica através da integração dos dados;
+- Estabelecer critérios robustos e representativos para aplicação de questionários.
+
+<br>
+
+**Universo e Unidade Amostral**
+
+O _Universo_ deste estudo corresponde ao conjunto de indivíduos com 18 ou mais anos residentes no distrito Sede do município de Juiz de Fora, que abrange a área urbana principal e concentra a maior parte da população do município. A amostra será
+selecionada a partir deste este universo definido.
+
+Quanto à delimitação geográfica do universo, observa-se que outros distritos do município foram excluídos. Essa exclusão justifica-se por estes apresentarem características predominantemente rurais, bem como de áreas históricas e de lazer.
+
+Nesse contexto, a _unidade amostral_ do estudo corresponde aos _domicílios_ pertencentes ao universo definido que venha a ser selecionado para compor a amostra. Na pesquisa em questão, a unidade informate corresponderá aos indivíduos residentes nos domicílios particulares permanentes sorteados nos setores censitários selecionados.
+
+A Prefeitura de Juiz de Fora (PJF) disponibiliza mapas das divisões geográficas do município. O _Mapa 01_ exibe o ordenamento territorial, identificando os diversos distritos. Nele, observa-se que o distrito Sede possui a maior extensão territorial dentre os demais, embora ocupe aproximadamente metade da área total do município. Como será detalhado posteriormente, nesse distrito concentra-se a maior parcela da população municipal.
+
+O _Mapa 02_, por sua vez, mostra as unidades de planejamento do distrito Sede, apresentando uma divisão em oito regiões. Essa informação é relevante para garantir a representatividade da amostra no distrito Sede, o que implica que a amostra deverá incluir representantes de todas as regiões.
+
+![Mapa 01: Ordenamento territorial do Município de JF](mapa_01.png)
+
+![Mapa 02: Unidades de Planejamento de Distrito Sede do Município de JF](mapa_02.png)
+
+<br>
+
+Considerando que o Instituto Brasileiro de Geografia e Estatística (IBGE) identifica _81 bairros_ no distrito Sede do município de Juiz de Fora, esses registros são harmonizados com as regiões de planejamento da PJF, o que viabiliza a associação entre cada bairro
+considerado pelo IBGE e as regiões propostas pela PJF. A _Tabela 01_ consolida esta correspondência de informações.
+
+```{r 1, echo = F}
+regioes.bairros <- data.frame(
+  REGIÕES = c("Centro", "Centro-Oeste", "Leste", "Nordeste", "Norte", "Oeste", "Sudeste", "Sul", "TOTAL"),
+  BAIRROS = c(22, 12, 10, 7, 5, 8, 8, 9, 81),
+  `IDENTIFICAÇÃO DE BAIRROS` = c(
+    "Alto dos Passos, Dom Bosco, Morro da Glória, Bairu, Granbery, Mundo Novo, Boa Vista, Jardim Glória, Poço Rico, Bom Pastor, Jardim Paineiras, Santa Catarina, Botanágua, Jardim Santa Helena, Santa Cecília, Cascatinha, Manoel Honório, São Mateus, Centro, Mariano Procópio, Vale do Ipê, Costa Carvalho",
+    "Barbosa Lage, Fábrica, Jóckei Club, Carlos Chagas, Francisco Bernardino, Monte Castelo, Cerâmica, Industrial, Remonta, Esplanada, Jardim Natal, São Dimas",
+    "Bonfim, Meggliolário, São Benedito, Cesário Alvim, Progresso, São Bernardo, Grajaú, Santa Rita de Cássia, Vitorino Braga, Linhares",
+    "Centenário, Jardim Bom Clima, Santa Terezinha, Eldorado, Muçunge da Grama, Vale dos Bandeirantes, Granjas Bethânia",
+    "Barreira do Triunfo, Nova Era, Santa Cruz, Benfica, Represa",
+    "Aeroporto, Martelos, Novo Horizonte, Borboleta, Morro do Imperador, São Pedro, Cruzeiro de Santo Antônio, Nova Califórnia",
+    "Barão do Retiro, Ozanan, Vila Ideal, Floresta, Santo Antônio do Paralbuna, Vila Olavo Costa, Nossa Senhora de Lourdes, Vila Furtado de Menezes",
+    "Bomba de Fogo, Sagrado Coração de Jesus, Santa Luzia, Graminha, Salvaterra, São Geraldo, Ipiranga, Santa Efigênia, Teixeiras",
+    ""
+  )
+)
+
+kable(
+    regioes.bairros,
+    align = c("l", "c", "r"), 
+    caption = "Tabela 01: Divisão de regiões e bairros de Juiz de Fora",
+    col.names = c("REGIÕES", "Nº BAIRROS", "IDENTIFICAÇÃO DE BAIRROS")
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    position = "center",
+    full_width = T) %>%  
+  column_spec(
+    1, bold = TRUE
+  )
+```
+
+<br>
+
+#### **Conjunto de Dados**
+
+Foram selecionados exclusivamente os setores censitários de Juiz de Fora (código 3136702), combinando dados básicos (informações territoriais e identificação de setores), demográficos (estrutura populacional por faixa etária e sexo) e educacionais (níveis de alfabetização), complementados com os dados da divisão administrativa da prefeitura de Juiz de Fora:
+
+1. **Dados Territoriais Básicos** (`Agregados_por_setores_basico_BR.xlsx`):
+  - `CD_MUN`, `NM_MUN`: Código e nome do município;
+  - `CD_BAIRRO`, `NM_BAIRRO`: Código e nome do bairro;
+  - `REG`: Denominação pela divisão administrativa da prefeitura de Juiz de Fora;
+  - `SITUACAO`: Classificação urbana/rural;
+  - `AREA_KM2`: Área do setor censitário em km²;
+  - `CD_SETOR`: Código único do setor censitário (15 dígitos).
+
+<br>
+
+2. **Dados Demográficos** (`Agregados_por_setores_demografia_BR.xlsx`):
+  - `v0001`: População residente total;
+  - `v0002`: Total de domicílios particulares;
+  - `V01006-V01008`: População por sexo (total, masculino, feminino);
+  - `V01012-V01030`: Distribuição etária por sexo (15-19 até 70+ anos).
+
+<br>
+
+3. **Dados de Alfabetização** (`Agregados_por_setores_alfabetizacao_BR.xlsx`):
+  - `V00644-V00656`: Alfabetização por faixa etária (total);
+  - `V00722-V00747`: Alfabetização desagregadas por sexo.
+
+<br>
+
+4. **Integração com divisão administrativa** (`divisoes.xlsx`):
+  - Vinculação precisa dos setores censitários aos bairros oficiais;
+  - Adição de classificações regionais complementares.
+
+<br>
+
+```{r 2, echo = F, eval = F}
+dados.sc.basc <- readxl::read_excel("Agregados_por_setores_basico_BR.xlsx") %>% 
+  select(
+    CD_MUN, NM_MUN, CD_BAIRRO, NM_BAIRRO, SITUACAO, AREA_KM2, ## Seleciona variáveis de interesse
+    CD_SETOR, ## Seleciona o código do setor
+    matches("^[vV]") ## Seleciona as Variáveis
+  )
+
+dados.sc.dem <- readxl::read_excel("Agregados_por_setores_demografia_BR.xlsx") %>% 
+  select(
+    CD_SETOR, ## Seleciona o código do setor
+    matches("^[vV]") ## Seleciona as Variáveis
+  )
+
+dados.sc.alf <- readxl::read_excel("Agregados_por_setores_alfabetizacao_BR.xlsx") %>% 
+  select(
+    CD_SETOR, ## Seleciona o código do setor
+    matches("^[vV]") ## Seleciona as Variáveis
+  )
+
+divisoes <- readxl::read_excel("divisoes.xlsx")
+
+dados.sc <- dados.sc.basc %>% 
+  left_join(
+    dados.sc.alf, 
+    by = "CD_SETOR"
+  ) %>%
+  left_join(
+    dados.sc.dem, 
+    by = "CD_SETOR"
+  ) %>%
+  left_join(
+    divisoes, 
+    by = "NM_BAIRRO"
+  ) %>% 
+  filter(
+    str_sub(CD_SETOR, 1, 7) == "3136702"
+  )
+
+writexl::write_xlsx(dados.sc, path = "dados_sc.xlsx")
+```
+
+```{r 3, echo = F, eval = F}
+dados.sc <- readxl::read_excel("dados_sc.xlsx")
+dados.sc
+```
+
+<br>
+
+#### **Processamento dos Dados**
+
+Foram mantidas algumas variáveis dos dados originais do Censo do IBGE (2022):
+  - `CD_MUN`, `NM_MUN`: Código e nome do município;
+  - `CD_BAIRRO`, `NM_BAIRRO`: Código e nome do bairro;
+  - `REG`: Denominação pela divisão administrativa da prefeitura de Juiz de Fora;
+  - `SITUACAO`: Classificação urbana/rural;
+  - `AREA_KM2`: Área do setor censitário em km²;
+  - `CD_SETOR`: Código único do setor censitário (15 dígitos).
+
+<br>
+
+Foram construídas novas variáveis a partir dos dados originais do Censo do IBGE (2022):
+
+1. **População**:
+  - `TOTAL_PESS`: População residente total;
+  - `TOTAL_DOMN`: Total de domicílios;
+  - `DEM_T`:População total.
+
+2. **População x Sexo**:
+  - `DEM_(X)_18mais`: População masculina com 18+ anos;
+  - `DEM_(X)_18_39`: População masculina entre 18-39 anos;
+  - `DEM_(X)_40_69`: População masculina entre 40-69 anos;
+  - `DEM_(X)_70mais`: População masculina com 70+ anos;
+  - Variáveis equivalentes para homens e mulheres.
+  
+3. **Alfabetização x Sexo x Faixa Etária**:
+  - `ALF_T_18mais`: Taxa de Alfabetização com 18+ anos;
+  - `ALF_T_18_39`: Taxa de alfabetização entre 18-39 anos;
+  - `ALF_T_40_69`: Taxa de alfabetização entre 40-69 anos;
+  - `ALF_T_70mais`: Taxa de alfabetização com 70+ anos;
+  - Variáveis equivalentes para homens e mulheres.
+
+<br>
+
+Por fim, aplicamos algumas transformações:
+
+1. **Ajuste etário**:
+  - Redução de 60% nas faixas 15-19 anos (para focalizar em 18+);
+  - Agregação em faixas etárias amplas (15-39, 40-69, 70+).
+
+2. **Padronização**:
+  - Consistência dos tipos de dados;
+  - Conversão de códigos para numérico;
+  - Tratamento de valores missing ("X" → NA).
+
+<br>
+
+Também utilizamos o pacote `geobr`, desenvolvido pelo Instituto de Pesquisa Econômica Aplicada (IPEA), para obtermos dados geográficos dos setores censitários de Juiz de Fora e permitir uma melhor visualização da seleção obtida pelo desenho amostral.
+
+<br>
+
+```{r 4, echo = F, eval = F}
+dados.sc.pr <- dados.sc %>%
+  select(
+    ##### Variáveis Geográficas
+    CD_MUN, NM_MUN, REG, CD_BAIRRO, NM_BAIRRO, CD_SETOR, ## Identificadores
+    SITUACAO, AREA_KM2, ## Variáveis Geográficas
+    
+    ##### Variáveis Demográficas
+    v0001, ## Total de Pessoas
+    v0002, ## Total de Domilicios
+    V01006, V01007, V01008, ## Quantidade Total de Moradores (Total, Masc., Femn.)
+    V01012:V01019, ## Quantidade de Moradores do Sexo Masc. p/ Idade (15-19, 20-24, 25-29, 30-39, 40-49, 50-59, 60-69, 70+)
+    V01023:V01030, ## Quantidade de Moradores do Sexo Femn. p/ Idade (15-19, 20-24, 25-29, 30-39, 40-49, 50-59, 60-69, 70+)
+    
+    ##### Variáveis de Alfabetizacao
+    V00644:V00656, ## Alfabetização do Total de Moradores (15-19, 20-24, 25-29, 30-34, 35-39, 40-44, 44-49, 50-54, 55-59, 60-64, 65-69, 70-79, 80+)
+    V00722:V00734, ## Alfabetização de Moradores do Sexo Masc. p/ Idade (15-19, 20-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-64, 65-69, 70-79, 80+)
+    V00735:V00747 ## Alfabetização de Moradores do Sexo Femn. p/ Idade (15-19, 20-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-64, 65-69, 70-79, 80+)
+  ) %>% 
+  mutate(
+    ## Converte códigos para numérico
+    CD_MUN = as.numeric(CD_MUN),
+    CD_BAIRRO = as.numeric(CD_BAIRRO),
+    CD_SETOR = as.numeric(CD_SETOR),
+    
+    ## Converte "X" para NA
+    across(where(is.character), ~na_if(., "X")),
+    across(v0001:V00747, as.numeric),
+    
+    ###### Ajuste para remover 60% das observações de 15-17 anos (mantendo 40% para 18-19)
+    V01012 = V01012 * 0.4, ## Masculino 15-19 → ajustado para 18-19
+    V01023 = V01023 * 0.4, ## Feminino 15-19 → ajustado para 18-19
+    V00644 = V00644 * 0.4, ## Alfabetização total 15-19 → ajustado para 18-19
+    V00722 = V00722 * 0.4, ## Alfabetização masculina 15-19 → ajustado para 18-19
+    V00735 = V00735 * 0.4, ## Alfabetização feminina 15-19 → ajustado para 18-19
+    
+    ##### Criar faixas etárias demográficas
+    ## Masculino
+    DEM_M_18_39 = rowSums(across(V01012:V01015), na.rm = TRUE), ## 18-19, 20-24, 25-29, 30-39
+    DEM_M_40_69 = rowSums(across(V01016:V01018), na.rm = TRUE), ## 40-49, 50-59, 60-69
+    DEM_M_70mais = rowSums(across(V01019), na.rm = TRUE), ## 70+
+    DEM_M_18mais = DEM_M_18_39 + DEM_M_40_69 + DEM_M_70mais, ## 18+
+    
+    ## Feminino
+    DEM_F_18_39 = rowSums(across(V01023:V01026), na.rm = TRUE), ## 18-19, 20-24, 25-29, 30-39
+    DEM_F_40_69 = rowSums(across(V01027:V01029), na.rm = TRUE), ## 40-49, 50-59, 60-69
+    DEM_F_70mais = rowSums(across(V01030), na.rm = TRUE), ## 70+
+    DEM_F_18mais = DEM_F_18_39 + DEM_F_40_69 + DEM_F_70mais, ## 18+
+    
+    ## Total
+    DEM_T_18_39 = rowSums(across(c(V01012:V01015, V01023:V01026)), na.rm = TRUE), ## 18-19, 20-24, 25-29, 30-39
+    DEM_T_40_69 = rowSums(across(c(V01016:V01018, V01027:V01029)), na.rm = TRUE), ## 40-49, 50-59, 60-69
+    DEM_T_70mais = rowSums(across(c(V01019, V01030)), na.rm = TRUE), ## 70+
+    DEM_T_18Mais = DEM_T_18_39 + DEM_T_40_69 + DEM_T_70mais, ## 18+
+    
+    ##### Faixas etárias de alfabetização
+    ## Masculino
+    ALF_M_18_39 = rowSums(across(V00722:V00726), na.rm = TRUE), ## 18-19, 20-24, 25-29, 30-34, 35-39,
+    ALF_M_40_69 = rowSums(across(V00727:V00732), na.rm = TRUE), ## 40-44, 44-49, 50-54, 55-59, 60-64, 65-69
+    ALF_M_70mais = rowSums(across(V00733:V00734), na.rm = TRUE), ## 70-79, 80+
+    ALF_M_18mais = ALF_M_18_39 + ALF_M_40_69 + ALF_M_70mais, ## 18+
+  
+    ## Feminino
+    ALF_F_18_39 = rowSums(across(V00735:V00739), na.rm = TRUE), ## 18-19, 20-24, 25-29, 30-34, 35-39,
+    ALF_F_40_69 = rowSums(across(V00740:V00745), na.rm = TRUE), ## 40-44, 44-49, 50-54, 55-59, 60-64, 65-69
+    ALF_F_70mais = rowSums(across(V00746:V00747), na.rm = TRUE), ## 70-79, 80+
+    ALF_F_18mais = ALF_F_18_39 + ALF_F_40_69 + ALF_F_70mais, ## 18+
+    
+    ## Total
+    ALF_T_18_39 = rowSums(across(V00644:V00647), na.rm = TRUE), ## 15-19, 20-24, 25-29, 30-39
+    ALF_T_40_69 = rowSums(across(V00648:V00653), na.rm = TRUE), ## 40-44, 44-49, 50-54, 55-59, 60-64, 65-69
+    ALF_T_70mais = rowSums(across(V00654:V00656), na.rm = TRUE), ## 70-79, 80+
+    ALF_T_18mais = ALF_T_18_39 + ALF_T_40_69 + ALF_T_70mais ## 18+
+  ) %>% 
+  rename(
+    TOTAL_PESS = v0001, ## Total de pessoas
+    TOTAL_DOMN = v0002, ## Total de domicílios
+    DEM_T = V01006, ## Quantidade total de Moradores
+    DEM_T_M = V01007, ## Quantidade Total de Moradores Masculinos
+    DEM_T_F = V01008, ## Quantidade total de moradores femininos
+  ) %>% 
+  select(
+    -starts_with("V0") ## Remove colunas originais do IBGE
+  ) %>%
+  relocate(
+    CD_MUN:AREA_KM2, 
+    TOTAL_PESS:DEM_T_F, ## Seleciona as primeiras variáveis demográficas
+    starts_with("DEM_"), ## Seleciona as demais variáveis demográficas
+    starts_with("ALF_") ## Seleciona as variáveis de alfabetização
+  )
+
+writexl::write_xlsx(dados.sc.pr, path = "dados_sc_processados.xlsx")
+```
+
+```{r 5, echo = F, cache = F}
+dados.processados <- readxl::read_excel("dados_sc_processados.xlsx")
+dados.processados
+```
+
+```{r 6, echo = F, cache = T}
+setores.jf <- geobr::read_census_tract(
+  code_tract = 3136702, ## Código de Juiz de Fora
+  year = 2022 ## Ano do Censo
+) %>% 
+  sf::st_transform(4326)
+```
+
+<br>
+
+#### **Análise Exploratória** {.tabset .tabset-pills}
+
+Esta análise exploratória tem como objetivo investigar padrões geográficos, demográficos e educacionais a partir dos dados censitários de 2022, com foco na distribuição espacial e sociodemográfica da população. 
+
+Utilizando técnicas de estatística descritiva e visualização interativa, buscaremos identificar disparidades entre áreas rurais e urbanas, a presença ou ausência de bairros formalizados, e características demográficas e educacionais.
+
+##### **Distribuição Geográfica**
+
+**Tabela de Frequências**
+
+A tabela apresenta a distribuição de população e setores censitários categorizados por:
+
+- Situação geográfica: Rural vs. Urbano
+- Existência de bairro formalizado: Com Bairro vs. Sem Bairro
+
+```{r 7, echo = F}
+## 1) Cálculo dos Objetos Individuais ---------------------------------------------------
+
+### SETORES E POPULAÇÃO RURAL SEM BAIRRO
+rural_sem_bairro <- dados.processados %>%
+  filter(SITUACAO == "Rural" & (is.na(NM_BAIRRO) | NM_BAIRRO == "")) %>%
+  summarise(
+    Classificacao = "Rural sem bairro",
+    Setores = n_distinct(CD_SETOR),
+    Populacao = sum(TOTAL_PESS, na.rm = TRUE)
+  )
+
+### SETORES E POPULAÇÃO RURAL COM BAIRRO
+rural_com_bairro <- dados.processados %>%
+  filter(SITUACAO == "Rural" & !is.na(NM_BAIRRO) & NM_BAIRRO != "") %>%
+  summarise(
+    Classificacao = "Rural com bairro",
+    Setores = n_distinct(CD_SETOR),
+    Populacao = sum(TOTAL_PESS, na.rm = TRUE)
+  )
+
+### SETORES E POPULAÇÃO URBANA SEM BAIRRO
+urbano_sem_bairro <- dados.processados %>%
+  filter(SITUACAO != "Rural" & is.na(NM_BAIRRO) | NM_BAIRRO == "") %>%
+  summarise(
+    Classificacao = "Urbano sem bairro",
+    Setores = n_distinct(CD_SETOR),
+    Populacao = sum(TOTAL_PESS, na.rm = TRUE)
+  )
+
+### SETORES E POPULAÇÃO URBANA COM BAIRRO
+urbano_com_bairro <- dados.processados %>%
+  filter(SITUACAO != "Rural" & !is.na(NM_BAIRRO) & NM_BAIRRO != "") %>%
+  summarise(
+    Classificacao = "Urbano com bairro",
+    Setores = n_distinct(CD_SETOR),
+    Populacao = sum(TOTAL_PESS, na.rm = TRUE)
+  )
+
+## 2) Cálculo dos Totais ----------------------------------------------------------------
+
+### TOTAIS GERAIS
+totais_gerais <- dados.processados %>%
+  summarise(
+    Classificacao = "TOTAL",
+    Setores = n_distinct(CD_SETOR),
+    Populacao = sum(TOTAL_PESS, na.rm = TRUE)
+  )
+
+## 3) Combinação dos Objetos ------------------------------------------------------------
+tabela_geo_final <- bind_rows(
+  rural_sem_bairro,
+  rural_com_bairro,
+  urbano_sem_bairro,
+  urbano_com_bairro,
+  totais_gerais
+  ) %>%
+  mutate(
+    Setores_pct = round(Setores / totais_gerais$Setores * 100, 1),
+    Populacao_pct = round(Populacao / totais_gerais$Populacao * 100, 1)
+  )
+
+## 4) Formatação da Tabela Final --------------------------------------------------------
+tabela_geo_final %>%
+  mutate(
+    Setores = paste0(format(Setores, big.mark = "."), " (", Setores_pct, "%)"),
+    Populacao = paste0(format(round(Populacao), big.mark = "."), " (", Populacao_pct, "%)")
+  ) %>%
+  select(Classificacao, Setores, Populacao) %>%
+  kable(
+    format = "html",
+    align = c("l", "r", "r"),
+    col.names = c("Classificação", "Nº de Setores (%)", "População (%)"),
+    caption = "Distribuição Geográfica por Classificação Urbana/Rural e Existência de Bairro Formalizado"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    font_size = 14
+  ) %>%
+  column_spec(1, bold = TRUE) %>%
+  row_spec(0, background = "#3A4A8F", color = "white") %>%
+  row_spec(5, bold = TRUE, background = "#f5f5f5") %>% # Destaque para total
+  footnote(
+    general = c(
+      "Fonte: Dados processados do Censo Demográfico 2022",
+      "Nota: Classificação baseada na variável SITUACAO e existência de NM_BAIRRO não vazio"
+    ),
+    general_title = ""
+  )
+```
+
+Pela tabela, podemos observar que:
+
+- A população urbana com denominação de bairros formalizados concentra $92,9\%$ dos habitantes ($502.621$ pessoas), enquanto áreas rurais junto das áreas urbanas sem denominação de bairros representam $7,1\%$ ($38.135$ pessoas).
+- A distribuição de setores censitários segue padrão similar, com $89,7\%$ localizados em áreas urbanas com bairros.
+- Deixa evidente a elevada urbanização da região estudada e a necessidade de realizar estratificação.
+
+**Mapa Interativo**
+
+O mapa interativo permite uma visualização mais detalhada dos setores censitários, onde é possível enxergar melhor a interseção dos setores censitários urbanos/rurais com aqueles que possuem ou não uma denominação formal de bairro:
+
+- Cores por categoria: Rural/Urbano e Com/Sem Bairro;
+- Pop-up informativo: Exibem detalhes ao clicar em um setor censitário, como seu código, situação (rural/urbano), nome do bairro (se possuir denominação formal), população, e área (em $km^2$).
+
+```{r 8, echo = F}
+dados.mapa.1 <- setores.jf %>%
+  mutate(
+    CD_SETOR = as.numeric(code_tract)
+  ) %>%
+  left_join(
+    dados.processados, by = "CD_SETOR"
+  ) %>%
+  mutate(
+    Categoria = case_when( ## Categorias
+      SITUACAO == "Rural" & (is.na(NM_BAIRRO) | NM_BAIRRO == "") ~ "Rural sem bairro",
+      SITUACAO == "Rural" ~ "Rural com bairro",
+      is.na(NM_BAIRRO) | NM_BAIRRO == "" ~ "Urbano sem bairro",
+      TRUE ~ "Urbano com bairro"
+    ),
+    Popup = paste( ## Pop-Up informativo
+      "<b>Setor:</b>", CD_SETOR, "<br>",
+      "<b>Situação:</b>", SITUACAO, "<br>",
+      "<b>Bairro:</b>", ifelse(is.na(NM_BAIRRO) | NM_BAIRRO == "", "Não informado", NM_BAIRRO), "<br>",
+      "<b>População:</b>", format(TOTAL_PESS, big.mark = "."), "<br>",
+      "<b>Área:</b>", round(AREA_KM2, 2), "km²"
+    )
+  )
+
+mapa.interativo.1 <- leaflet(dados.mapa.1) %>%
+  addProviderTiles( ## Mapa Base
+    providers$OpenStreetMap
+  ) %>%
+  addPolygons(
+    fillColor = ~colorFactor(
+      palette = c("#4F972D", "#31572C", "#418AFF", "#2959A7"),
+      domain = dados.mapa.1$Categoria
+    )(Categoria),
+    color = "white", weight = 0.5,
+    fillOpacity = 0.60,
+    popup = ~Popup,
+    highlightOptions = highlightOptions(
+      fillOpacity = 0.75,
+    )
+  ) %>%
+  addLegend( ## Legenda
+    position = "bottomright", 
+    pal = colorFactor(
+      palette = c("#4F972D", "#31572C", "#418AFF", "#2959A7"),
+      domain = dados.mapa.1$Categoria
+    ),
+    values = ~Categoria,
+    title = "Categorias",
+    opacity = 1
+  ) %>%
+  addControl(
+    html = "<div style='background: white; padding: 5px;'><b>Distribuição de setores censitários</b></div>",
+    position = "topright"
+  )
+
+mapa.interativo.1
+```
+
+O mapa permite identificar aglomerados espaciais e áreas de exclusão (como zonas rurais sem bairros), sendo essencial para o planejamento territorial do desenho amostral.
+
+<br>
+
+**Filtragem dos Dados**
+
+```{r 9, echo = F}
+dados.filtrados <- dados.processados %>%
+  filter(!is.na(NM_BAIRRO)) %>%
+  filter(SITUACAO != "Rural")
+
+dados.filtrados
+```
+
+<br>
+
+##### **Distribuição Demográfica**
+
+Esta seção apresenta uma análise detalhada da distribuição da população por sexo e faixa etária, com base nos dados processados do Censo Demográfico. A tabela organiza os dados em duas perspectivas principais:
+
+- Valores absolutos (contagem real da população)
+- Proporções (distribuição percentual de cada grupo em relação ao total da população).
+
+Os dados são desagregados por sexo (feminino e masculino) e por quatro faixas etárias:
+
+- 0-17 anos (crianças e adolescentes)
+- 18-39 anos (adultos jovens)
+- 40-69 anos (adultos maduros)
+- 70+ anos (idosos).
+
+A faixa de 0-17 anos foi estimada subtraindo-se a população adulta (18+ anos) da população total por sexo, garantindo comparabilidade com os dados oficiais.
+
+```{r 10, echo = F}
+## 1) Cálculo dos Objetos Individuais ---------------------------------------------------
+
+## VALORES BRUTOS FEMININOS (incluindo 0-17)
+brutos_fem <- dados.processados %>% 
+  summarise(
+    Categoria = "Brutos",
+    Subcategoria = "Mulheres",
+    `0-17` = sum(DEM_T_F, na.rm = TRUE) - sum(DEM_F_18mais, na.rm = TRUE), # Estimativa para 0-17
+    `18-39` = sum(DEM_F_18_39, na.rm = TRUE),
+    `40-69` = sum(DEM_F_40_69, na.rm = TRUE),
+    `70+` = sum(DEM_F_70mais, na.rm = TRUE)
+  )
+
+## VALORES BRUTOS MASCULINOS (incluindo 0-17)
+brutos_masc <- dados.processados %>% 
+  summarise(
+    Categoria = "Brutos",
+    Subcategoria = "Homens",
+    `0-17` = sum(DEM_T_M, na.rm = TRUE) - sum(DEM_M_18mais, na.rm = TRUE), # Estimativa para 0-17
+    `18-39` = sum(DEM_M_18_39, na.rm = TRUE),
+    `40-69` = sum(DEM_M_40_69, na.rm = TRUE),
+    `70+` = sum(DEM_M_70mais, na.rm = TRUE)
+  )
+
+## PROPORÇÕES FEMININAS (%) (todas idades)
+prop_fem <- dados.processados %>% 
+  summarise(
+    Categoria = "Proporção",
+    Subcategoria = "Mulheres",
+    `0-17` = (sum(DEM_T_F, na.rm = TRUE) - sum(DEM_F_18mais, na.rm = TRUE)) / sum(DEM_T, na.rm = TRUE) * 100,
+    `18-39` = sum(DEM_F_18_39, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100,
+    `40-69` = sum(DEM_F_40_69, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100,
+    `70+` = sum(DEM_F_70mais, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100
+  )
+
+## PROPORÇÕES MASCULINAS (%) (todas idades)
+prop_masc <- dados.processados %>% 
+  summarise(
+    Categoria = "Proporção",
+    Subcategoria = "Homens",
+    `0-17` = (sum(DEM_T_M, na.rm = TRUE) - sum(DEM_M_18mais, na.rm = TRUE)) / sum(DEM_T, na.rm = TRUE) * 100,
+    `18-39` = sum(DEM_M_18_39, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100,
+    `40-69` = sum(DEM_M_40_69, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100,
+    `70+` = sum(DEM_M_70mais, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100
+  )
+
+## 2) Cálculo dos Totais ----------------------------------------------------------------
+
+## TOTAIS BRUTOS (todas idades)
+brutos_total <- dados.processados %>% 
+  summarise(
+    Categoria = "Brutos",
+    Subcategoria = "Total",
+    `0-17` = sum(DEM_T, na.rm = TRUE) - sum(DEM_T_18Mais, na.rm = TRUE),
+    `18-39` = sum(DEM_T_18_39, na.rm = TRUE),
+    `40-69` = sum(DEM_T_40_69, na.rm = TRUE),
+    `70+` = sum(DEM_T_70mais, na.rm = TRUE)
+  )
+
+## TOTAIS PROPORÇÕES (todas idades)
+prop_total <- dados.processados %>% 
+  summarise(
+    Categoria = "Proporção",
+    Subcategoria = "Total",
+    `0-17` = (sum(DEM_T, na.rm = TRUE) - sum(DEM_T_18Mais, na.rm = TRUE)) / sum(DEM_T, na.rm = TRUE) * 100,
+    `18-39` = sum(DEM_T_18_39, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100,
+    `40-69` = sum(DEM_T_40_69, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100,
+    `70+` = sum(DEM_T_70mais, na.rm = TRUE) / sum(DEM_T, na.rm = TRUE) * 100
+  )
+
+## 3) Combinação dos Objetos ------------------------------------------------------------
+tabela_final <- bind_rows(
+  brutos_fem,
+  brutos_masc,
+  brutos_total,
+  prop_fem,
+  prop_masc,
+  prop_total
+) %>%
+  mutate(across(where(is.numeric), ~ ifelse(
+    Categoria == "Proporção",
+    paste0(round(., 1), "%"),  # Proporções com 1 decimal e %
+    format(round(.), big.mark = ".", decimal.mark = ",")  # Valores absolutos sem decimais
+  )))
+
+## 4) Formatação da Tabela Final --------------------------------------------------------
+tabela_final %>%
+  kable(
+    format = "html",
+    align = c("l", "l", rep("c", 4)),
+    col.names = c("Tipo", "Grupo", "0-17 anos", "18-39 anos", "40-69 anos", "70+ anos"),
+    caption = "Distribuição da População por Sexo e Faixa Etária (Todas as Idades)"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    font_size = 14
+  ) %>%
+  column_spec(1:2, bold = TRUE) %>%
+  row_spec(0, background = "#3A4A8F", color = "white") %>%
+  pack_rows("Valores Absolutos", 1, 3) %>%
+  pack_rows("Proporções (%)", 4, 6) %>%
+  row_spec(c(3, 6), bold = TRUE, background = "#f5f5f5") %>% # Destaque para totais
+  footnote(
+    general = c(
+      "Fonte: Dados processados do Censo Demográfico",
+      "Nota: Valores de 0-17 são estimativas baseadas na população total por sexo menos a população adulta"
+    ),
+    general_title = ""
+  )
+```
+
+1. **População 0-17 anos**
+  - Total: 118.550 (22% da população)
+  - Distribuição equilibrada: 54.446 mulheres (10.1%) e 58.105 homens (10.8%);
+  - Leve predominância masculina segue padrões biológicos de natalidade;
+  - Base crítica para políticas educacionais e de desenvolvimento infantil.
+
+2. **População 18-39 anos**
+  - Total: 175.908 (32.7% da população)
+  - Maioria feminina: 90.810 mulheres (16.9%) vs 85.099 homens (15.8%);
+  - Diferença possivelmente relacionada à maior longevidade feminina;
+  -  Principal força de trabalho e base econômica.
+
+3. **População 40-69 anos**
+  - Maior grupo: 207.263 (38.5% da população);
+  - Disparidade de gênero: 113.171 mulheres (21%) vs 94.092 homens (17.5%);
+  - Reflete maior mortalidade precoce masculina e envelhecimento populacional.
+
+4. **População 70+ anos**
+  - Total: 49.408 (9.2% da população);
+  - Razão de 1,55 mulheres (5.6%) para cada homem (3.6%);
+  - Consistente com padrões globais de maior longevidade feminina;
+  - Demanda por políticas de saúde e previdência específicas.
+
+**Observação Metodológica:** A estimativa para 0-17 anos foi calculada subtraindo a população adulta da total por sexo. Embora metodologicamente válido, poderia ser substituido com os dados por idade simples para maior precisão.
+
+<br>
+
+##### **Distribuição Educacional**
+
+Esta seção apresenta uma análise detalhada das taxas de alfabetização da população adulta (18+ anos), desagregada por sexo e faixa etária, com base nos dados processados do Censo Demográfico. Os indicadores são organizados em:
+
+- Valores absolutos: Número total de indivíduos alfabetizados em cada grupo;
+- Taxas de alfabetização: Proporção percentual de alfabetizados em relação à população total de cada faixa etária e sexo.
+
+Os dados revelam padrões e disparidades importantes sobre o acesso à educação entre grupos demográficos:
+
+```{r 11, echo = F}
+## 1) Cálculo dos Objetos Individuais ---------------------------------------------------
+
+## ALFABETIZAÇÃO FEMININA (valores absolutos)
+alf_abs_fem <- dados.processados %>% 
+  summarise(
+    Categoria = "Alfabetização (Absoluto)",
+    Subcategoria = "Mulheres",
+    `18-39` = sum(ALF_F_18_39, na.rm = TRUE),
+    `40-69` = sum(ALF_F_40_69, na.rm = TRUE),
+    `70+` = sum(ALF_F_70mais, na.rm = TRUE)
+  )
+
+## ALFABETIZAÇÃO MASCULINA (valores absolutos)
+alf_abs_masc <- dados.processados %>% 
+  summarise(
+    Categoria = "Alfabetização (Absoluto)",
+    Subcategoria = "Homens",
+    `18-39` = sum(ALF_M_18_39, na.rm = TRUE),
+    `40-69` = sum(ALF_M_40_69, na.rm = TRUE),
+    `70+` = sum(ALF_M_70mais, na.rm = TRUE)
+  )
+
+## TAXA DE ALFABETIZAÇÃO FEMININA (%)
+alf_taxa_fem <- dados.processados %>% 
+  summarise(
+    Categoria = "Taxa de Alfabetização",
+    Subcategoria = "Mulheres",
+    `18-39` = sum(ALF_F_18_39, na.rm = TRUE) / sum(DEM_F_18_39, na.rm = TRUE) * 100,
+    `40-69` = sum(ALF_F_40_69, na.rm = TRUE) / sum(DEM_F_40_69, na.rm = TRUE) * 100,
+    `70+` = sum(ALF_F_70mais, na.rm = TRUE) / sum(DEM_F_70mais, na.rm = TRUE) * 100
+  )
+
+## TAXA DE ALFABETIZAÇÃO MASCULINA (%)
+alf_taxa_masc <- dados.processados %>% 
+  summarise(
+    Categoria = "Taxa de Alfabetização",
+    Subcategoria = "Homens",
+    `18-39` = sum(ALF_M_18_39, na.rm = TRUE) / sum(DEM_M_18_39, na.rm = TRUE) * 100,
+    `40-69` = sum(ALF_M_40_69, na.rm = TRUE) / sum(DEM_M_40_69, na.rm = TRUE) * 100,
+    `70+` = sum(ALF_M_70mais, na.rm = TRUE) / sum(DEM_M_70mais, na.rm = TRUE) * 100
+  )
+
+## 2) Cálculo dos Totais ----------------------------------------------------------------
+
+## ALFABETIZAÇÃO ABSOLUTA TOTAL
+alf_abs_total <- dados.processados %>% 
+  summarise(
+    Categoria = "Alfabetização (Absoluto)",
+    Subcategoria = "Total",
+    `18-39` = sum(ALF_F_18_39 + ALF_M_18_39, na.rm = TRUE), # Soma direta das colunas originais
+    `40-69` = sum(ALF_F_40_69 + ALF_M_40_69, na.rm = TRUE),
+    `70+` = sum(ALF_F_70mais + ALF_M_70mais, na.rm = TRUE)
+  )
+
+## TAXA DE ALFABETIZAÇÃO TOTAL
+alf_taxa_total <- dados.processados %>% 
+  summarise(
+    Categoria = "Taxa de Alfabetização",
+    Subcategoria = "Total",
+    `18-39` = sum(ALF_F_18_39 + ALF_M_18_39, na.rm = TRUE) / 
+               sum(DEM_F_18_39 + DEM_M_18_39, na.rm = TRUE) * 100,
+    `40-69` = sum(ALF_F_40_69 + ALF_M_40_69, na.rm = TRUE) / 
+              sum(DEM_F_40_69 + DEM_M_40_69, na.rm = TRUE) * 100,
+    `70+` = sum(ALF_F_70mais + ALF_M_70mais, na.rm = TRUE) / 
+            sum(DEM_F_70mais + DEM_M_70mais, na.rm = TRUE) * 100
+  )
+
+## 3) Combinação dos Objetos ------------------------------------------------------------
+tabela_educ <- bind_rows(
+  alf_abs_fem,
+  alf_abs_masc,
+  alf_abs_total,
+  alf_taxa_fem,
+  alf_taxa_masc,
+  alf_taxa_total
+) %>%
+  mutate(across(where(is.numeric), ~ ifelse(
+    grepl("Taxa", Categoria),
+    paste0(round(., 1), "%"),  # Formata porcentagens
+    format(round(., 1), big.mark = ".", decimal.mark = ",")  # Formata números absolutos
+  )))
+
+## 4) Formatação da Tabela Final --------------------------------------------------------
+tabela_educ %>%
+  kable(
+    format = "html",
+    align = c("l", "l", rep("c", 3)),
+    col.names = c("Indicador", "Grupo", "18-39 anos", "40-69 anos", "70+ anos"),
+    caption = "Indicadores de Alfabetização por Sexo e Faixa Etária (População 18+)"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = FALSE,
+    font_size = 14
+  ) %>%
+  column_spec(1:2, bold = TRUE) %>%
+  row_spec(0, background = "#3A4A8F", color = "white") %>%
+  pack_rows("Quantidade de Alfabetizados", 1, 3) %>%
+  pack_rows("Taxas de Alfabetização (%)", 4, 6) %>%
+  row_spec(c(3, 6), bold = TRUE, background = "#f5f5f5") %>%
+  footnote(
+    general = c(
+      "Fonte: Dados processados do Censo Demográfico",
+      "Nota: Taxas calculadas sobre a população adulta em cada faixa etária"
+    ),
+    general_title = ""
+  )
+```
+
+Principais Observações:
+
+1. Altas Taxas de Alfabetização:
+  - A população adulta apresenta taxas de alfabetização próximas à universalização (acima de $98\%$) em todas as faixas etárias, o que sugere uma ampla cobertura de educação nas bases.
+  - O grupo de adultos jovens ($18-39$ anos) alcança índices máximos ($99,9\%$ para ambos os sexos), refletindo possíveis avanços no acesso à educação nas últimas décadas.
+
+2. Disparidades por Idade e Sexo:
+  - Entre os idosos ($70+$ anos), as taxas são ligeiramente inferiores, especialmente entre homens ($98\%$), o que pode estar associado a contextos históricos com menor oferta educacional para essa geração.
+  - Mulheres idosas mantêm uma taxa superior ($99,2\%$), indicando possíveis diferenças comportamentais ou de priorização da alfabetização ao longo do tempo.
+  - Homens nas faixas de $40-69$ anos e 70+ anos apresentam taxas $0,2\%$ e $1,2\%$ menores em comparação com mulheres. Essa variação pode estar ligada a dinâmicas sociais e econômicas históricas, como a inserção precoce no mercado de trabalho.
+
+3. Valores Absolutos:
+  - A quantidade de alfabetizados segue a distribuição demográfica, com maior número de mulheres nas faixas maduras e idosas, coerente com sua maior expectativa de vida.
+
+<br>
+
+#### **Desenho Amostral**
+
+```{r 12, echo = F}
+dados.filtrados <- dados.processados %>%
+  filter(complete.cases(.)) %>%
+  filter(SITUACAO != "Rural")
+```
+
+**1. Introdução**
+
+Este estudo tem como objetivo principal avaliar a percepção da população adulta (18 anos ou mais) do município de Juiz de Fora (MG) em relação à Universidade Federal de Juiz de Fora (UFJF), considerando múltiplas dimensões de análise:
+
+- Fatores demográficos: Idade, sexo, escolaridade, renda, ocupação;
+- Aspectos políticos e religiosos: Posicionamento ideológico, filiação partidária, afiliação religiosa;
+- Experiências pessoais: Relação prévia com a UFJF (como aluno, servidor, participação em eventos).
+
+Para garantir representatividade estatística e viabilidade operacional, adotamos um desenho amostral complexo, que combina três estratégias fundamentais:
+
+- Estratificação por bairros – Garante cobertura geográfica equilibrada e controle de heterogeneidade socioespacial.
+- Conglomeração em setores censitários – Reduz custos logísticos mediante agrupamento espacial.
+- Amostragem aleatória em quatro estágios – Minimiza vieses de seleção através de randomização em múltiplas etapas.
+
+**2. Metodologia**
+
+**2.1 População e Cobertura**
+
+O Universo da Pesquisa são os Residentes permanentes com 18 anos ou mais no distrito Sede (área urbana principal) de Juiz de Fora. Entretanto, com algumas exclusões:
+
+- Áreas rurais ($7,1\%$ da população municipal) – Devido à baixa densidade populacional e dificuldades logísticas.
+- Setores sem bairro formalizado – Ausência de identificação censitária consistente.
+- Domicílios coletivos (albergues, quartéis, presídios).
+
+A cobertura efetiva é de $92,9\%$ da população urbana adulta, garantindo representatividade da área central do município.
+
+**2.2 Estratificação Geográfica**
+
+O município de Juiz de Fora está organizado em $8$ regiões administrativas, subdivididas em $81$ bairros formalizados (IBGE, 2022). A estratificação foi realizada com base em:
+
+- Localização geográfica (Centro, Zona Norte, Sul, Leste, Oeste etc.).
+- Densidade populacional (concentração de domicílios por setor).
+
+Optou-se por fazer Alocação Proporcional (PPT) à população adulta em cada estrato, pois mantém a estrutura demográfica real, evita a inclusão e sobre-representação de bairros pequenos, e dispensa ajustes complexos nos estágios seguintes.
+
+**2.3 Estágios de Seleção**
+
+O processo amostral ocorre em quatro etapas sequenciais: 
+
+1. Seleção aleatória de bairros dentro de cada região administrativa; 
+2. Sorteio de setores censitários urbanos dentro de cada bairro selecionado (1-3 setores por bairro, conforme tamanho populacional); 
+3. Escolha sistemática de domicílios a partir da listagem do Censo; 
+4. Seleção aleatória de um morador adulto por domicílio mediante tabela de Kish.
+
+**3. Limitações**
+
+O desenho apresenta três limitações principais: 
+
+1. Exclusão de áreas rurais que concentram 7,1% da população, 
+2. Dependência da precisão dos registros censitários para a listagem de domicílios. 
+
+Estas limitações são aceitáveis diante dos ganhos de eficiência operacional e custo.
+
+<br>
+
+**4. Tamanho Amostral**
+
+**4.1. Parâmetros Básicos**
+
+- **População de referência (N):** 502.621 adultos (18+ anos)  
+- **Nível de confiança:** 95% (z = 1,96)  
+- **Margem de erro (e):** 3,65%  
+- **Variabilidade máxima (p):** 0,5 (proporção conservadora)
+- **Taxa de Resposta (k):** 0,8 (proporção recomendada)
+
+<br>
+
+**4.2. Cálculo da Amostra Inicial**
+
+Para o desenho amostral proposto, a Fórmula para população infinita é dada por:
+
+$$
+n_0 
+= 
+\frac{z^2 \cdot p \cdot (1-p)}{e^2} 
+= 
+\frac{1,96^2 \times 0,5 \times 0,5}{0,0365^2} = 721
+$$
+
+```{r 13}
+z <- 1.96   ## 95% de confiança
+p <- 0.5    ## Proporção conservadora
+e <- 0.0365 ## Margem de erro
+
+n0 <- (z^2 * p * (1 - p)) / e^2
+
+cat("Tamanho Amostral Inicial", ceiling(n0))
+```
+
+<br>
+
+**4.3. Ajuste para População Finita**
+
+Para o desenho amostral proposto, a fórmula de correção para populações finitas é dada por:
+
+$$
+n_1 
+= 
+\frac{n_0}{1 + \frac{n_0}{N}}
+=
+\frac{721}{1 + \frac{721}{502.621}}
+\approx
+720
+$$
+
+```{r 14}
+N <- 502621 ## Pupulação de JF dos dados filtrados
+n1 <- n0 / (1 + (n0 / 328477)) ## Fórmula de correção para população finita
+
+cat("Tamanho Amostral Ajustado", ceiling(n1))
+```
+
+<br>
+
+**4.4 Efeito do Desenho**
+
+Para o desenho amostral proposto, a fórmula de correção para o DEFF é calculado por:
+
+$$
+\text{DEFF} = 1 + (\bar{n} - 1)\rho
+$$
+
+Onde:
+
+- $n̄$ $\rightarrow$ = tamanho médio dos conglomerados (setores censitários)
+- $\rho$ $\rightarrow$  coeficiente de correlação intraclasse (mede a homogeneidade dentro dos setores)
+
+Para desenhos com estratificação, a fórmula se expande para:
+
+$$
+\text{DEFF}_{\text{total}} 
+= 
+\underbrace{\left[1 + (\bar{n}_{\text{setores}} - 1)\rho_{\text{setores}}\right]}_{\text{Efeito de conglomeração}} 
+\times 
+\underbrace{(1 - \rho_{\text{bairros}})}_{\text{Efeito da estratificação}}
+$$
+
+Foi adotado um $DEFF = 1.5$ como valor conservador, conforme recomendações da literatura para pesquisas domiciliares urbanas com estratificação e conglomeração:
+
+  - Referências Técnicas: Órgãos como IBGE e OMS sugerem DEFF entre 1.2 e 2.0 para pesquisas similares (ex.: PNAD, censos locais).
+  - Falta de Dados Piloto: Sem estudos preliminares, o valor padrão evita subestimação.
+  - Complexidade do Cálculo Direto: O ICC (ρρ) requer dados detalhados por setor, muitas vezes indisponíveis na fase de planejamento.
+
+A amostra ajustada aumenta em 50% para compensar a perda de eficiência estatística.
+
+$$
+n_2 
+=
+n_1 * deff
+=
+720 * 1.5
+\approx
+1079
+$$
+
+```{r 20, echo = F}
+deff <- 1.50
+n2 <- n1 * deff
+
+cat("Tamanho Amostral Ajustado", ceiling(n2))
+```
+
+<br>
+
+**4.5 Ajuste de Não Resposta**
+
+Para o desenho amostral proposto, a fórmula de correção para a Taxa de não resposta ($1 - k$) é calculado por:
+
+$$
+n_3 
+=
+\frac {n2}{k}
+=
+\frac {1079}{0.8}
+\approx
+1349
+$$
+
+```{r}
+taxa.resposta <- 0.8 ## 80% de resposta esperada
+n3 <- n2 / taxa.resposta
+
+cat("Tamanho Amostral Ajustado", ceiling(n3))
+```
+ 
+<br>
+
+#### **Seleção da Amostra**
+
+**Semente p/ Replicação**
+
+```{r 15}
+set.seed(073) ## Semente p/ reprodutibilidade -> 3 últimos números da matrícula
+n.bairros <- 21 ## Número de bairros a selecionar
+n.setores.por.bairro <- 4 ## Setores por bairro
+min.setores.por.bairro <- 2 ## Mínimo aceitável para inclusão
+```
+
+<br>
+
+**Etapa 1 - Seleção dos Bairros (PPT)**
+
+```{r 16, echo = F, warning = T}
+bairros.ppt <- dados.filtrados %>%
+  group_by(NM_BAIRRO) %>%
+  summarise(
+    total.pessoas = sum(TOTAL_PESS, na.rm = TRUE),
+    total.domicilios = sum(TOTAL_DOMN, na.rm = TRUE),
+    n.setores = n_distinct(CD_SETOR)
+  ) %>%
+  ungroup() %>%
+  filter(total.pessoas > 0, n.setores >= min.setores.por.bairro)  # Filtro de segurança
+
+if(nrow(bairros.ppt) < n.bairros) {
+  warning(paste("Apenas", nrow(bairros.ppt), "bairros disponíveis para amostragem"))
+  n.bairros <- nrow(bairros.ppt)
+}
+
+selecao.bairros <- bairros.ppt %>%
+  slice_sample(
+    n = n.bairros,
+    weight_by = total.pessoas,
+    replace = FALSE
+  ) %>%
+  arrange(NM_BAIRRO)
+
+cat("## Bairros selecionados (PPT):\n")
+selecao.bairros
+```
+
+**Estágio 2 - Seleção dos Setores Censitários**
+
+```{r 17, echo = F, warning = T}
+setores.selecionados <- data.frame()
+
+for(bairro in selecao.bairros$NM_BAIRRO) {
+  setores_unicos <- dados.filtrados %>%
+    filter(NM_BAIRRO == bairro) %>%
+    distinct(CD_SETOR, .keep_all = TRUE)
+  
+  n_disponivel <- nrow(setores_unicos)
+  n_amostrar <- min(n.setores.por.bairro, n_disponivel)
+  
+  if(n_disponivel < n.setores.por.bairro) {
+    warning(paste("Bairro", bairro, "tem apenas", n_disponivel, "setores"))
+  }
+  
+  setores_sorteados <- setores_unicos %>%
+    slice_sample(n = n_amostrar, replace = FALSE)
+  
+  dados_setores <- dados.filtrados %>%
+    filter(NM_BAIRRO == bairro, 
+           CD_SETOR %in% setores_sorteados$CD_SETOR)
+  
+  setores.selecionados <- bind_rows(setores.selecionados, dados_setores)
+}
+
+cat("\n### Resumo da Seleção por Bairro:\n")
+setores.selecionados %>%
+  group_by(NM_BAIRRO) %>%
+  summarise(
+    Setores_Selecionados = n_distinct(CD_SETOR),
+    Domicilios_Selecionados = sum(TOTAL_DOMN, na.rm = TRUE),
+    Populacao_Selecionada = sum(TOTAL_PESS, na.rm = TRUE)
+  ) %>%
+  print(n = Inf)
+
+setores.selecionados
+```
+
+<br>
+
+```{r 18, echo = F}
+# Preparar os dados para o mapa
+dados.mapa.2 <- setores.jf %>%
+  mutate(CD_SETOR = as.numeric(code_tract)) %>%
+  inner_join(setores.selecionados, by = "CD_SETOR") %>%
+  mutate(
+    Popup = paste(
+      "<b>Setor:</b>", CD_SETOR, "<br>",
+      "<b>Bairro:</b>", NM_BAIRRO, "<br>",
+      "<b>Região:</b>", REG, "<br>",
+      "<b>Domicílios:</b>", format(TOTAL_DOMN, big.mark = "."), "<br>",
+      "<b>População:</b>", format(TOTAL_PESS, big.mark = ".")
+    )
+  )
+
+# Criar paleta de cores por região
+pal <- colorFactor(
+  palette = "Set1",
+  domain = dados.mapa.2$REG
+)
+
+# Criar mapa interativo
+mapa.interativo.2 <- leaflet(dados.mapa.2) %>%
+  addProviderTiles( ## Mapa Base
+    providers$OpenStreetMap
+  ) %>%
+  addPolygons(
+    fillColor = ~pal(REG),
+    color = "white",
+    weight = 1,
+    fillOpacity = 0.7,
+    popup = ~Popup,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "#666",
+      fillOpacity = 0.9,
+      bringToFront = TRUE
+    )
+  ) %>%
+  addLegend(
+    position = "bottomright",
+    pal = pal,
+    values = ~REG,
+    title = "Regiões Administrativas",
+    opacity = 1
+  ) %>%
+  addControl(
+    html = "<div style='background: white; padding: 5px; border-radius: 5px;'>
+           <b>Setores Censitários Selecionados</b><br>
+           Juiz de Fora - MG</div>",
+    position = "topright"
+  )
+
+# Exibir o mapa
+mapa.interativo.2
+```
+
+<br>
+
+**Estágio 3 - Simulação dos Domicilios/Individuos**
+
+```{r 19, echo = F}
+set.seed(073)
+sexo <- numeric()
+alfabetizacao <- numeric()
+
+for(i in 1:nrow(setores.selecionados)){
+  masc <- setores.selecionados[i, 17]  ## DEM_M_18mais
+  fem <- setores.selecionados[i, 21]   ## DEM_F_18mais
+  alfM <- setores.selecionados[i, 29]  ## ALF_M_18mais
+  alfF <- setores.selecionados[i, 33]  ## ALF_F_18mais
+  
+  if((masc + fem) == 0) next
+  
+  p_sexo <- masc / (masc + fem)
+  sexoSC <- rbinom(10, 1, p_sexo)
+  
+  pAlfM <- ifelse(masc > 0, alfM/masc, 0)
+  pAlfF <- ifelse(fem > 0, alfF/fem, 0)
+  
+  alfabetizacaoSC <- ifelse(sexoSC == 1, 
+                           rbinom(10, 1, pAlfM),
+                           rbinom(10, 1, pAlfF))
+  
+  sexo <- c(sexo, sexoSC)
+  alfabetizacao <- c(alfabetizacao, alfabetizacaoSC)
+}
+
+prop_sexo_simulada <- mean(sexo)
+prop_sexo_real <- sum(setores.selecionados[,17]) / 
+                 (sum(setores.selecionados[,17]) + sum(setores.selecionados[,21]))
+
+prop_alfab_simulada <- mean(alfabetizacao)
+prop_alfab_real <- (sum(setores.selecionados[,29]) + sum(setores.selecionados[,33])) /
+                  (sum(setores.selecionados[,17]) + sum(setores.selecionados[,21]))
+
+prop_alfab_masc_simul <- mean(alfabetizacao[sexo == 1])
+prop_alfab_fem_simul <- mean(alfabetizacao[sexo == 0])
+
+prop_alfab_masc_real <- sum(setores.selecionados[,29])/sum(setores.selecionados[,17])
+prop_alfab_fem_real <- sum(setores.selecionados[,33])/sum(setores.selecionados[,21])
+
+resultados <- data.frame(
+  Indicador = c("Proporção Masculina", "Alfabetização Geral", 
+                "Alfabetização Masculina", "Alfabetização Feminina"),
+  Simulado = c(prop_sexo_simulada, prop_alfab_simulada,
+               prop_alfab_masc_simul, prop_alfab_fem_simul),
+  Real = c(prop_sexo_real, prop_alfab_real,
+           prop_alfab_masc_real, prop_alfab_fem_real),
+  Diferença = c(prop_sexo_simulada - prop_sexo_real,
+                prop_alfab_simulada - prop_alfab_real,
+                prop_alfab_masc_simul - prop_alfab_masc_real,
+                prop_alfab_fem_simul - prop_alfab_fem_real)
+)
+
+kable(resultados, digits = 4, align = c("l", "r", "r", "r"),
+      col.names = c("Indicador", "Simulado", "Real", "Diferença")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  add_header_above(c(" ", "Comparação" = 3)) %>%
+  column_spec(4, color = ifelse(abs(resultados$Diferença) > 0.05, "red", "black"))
+```
+
+<br>
+
+
+
+
